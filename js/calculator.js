@@ -215,7 +215,7 @@
     hideError();
 
     if (!mapsLoaded) {
-      showError("Google Maps is not loaded. Copy js/config.example.js to js/config.js and add your API key.");
+      showError("Google Maps is not loaded. Set GOOGLE_MAPS_API_KEY or add your key in js/config.js.");
       return;
     }
 

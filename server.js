@@ -4,10 +4,10 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 const { URL } = require("url");
+const { configJsBody } = require("./lib/resolve-api-key");
 
 const PORT = Number(process.env.PORT) || 3000;
 const ROOT = __dirname;
-const CONFIG_PATH = path.join(ROOT, "js", "config.js");
 
 const MIME = {
   ".css": "text/css; charset=utf-8",
@@ -18,29 +18,12 @@ const MIME = {
   ".svg": "image/svg+xml",
 };
 
-function readKeyFromConfigFile() {
-  try {
-    const content = fs.readFileSync(CONFIG_PATH, "utf8");
-    const match = content.match(/window\.GOOGLE_MAPS_API_KEY\s*=\s*["']([^"']*)["']/);
-    return match ? match[1] : "";
-  } catch {
-    return "";
-  }
-}
-
-function resolveApiKey() {
-  const fromFile = readKeyFromConfigFile();
-  if (fromFile) {
-    return fromFile;
-  }
-  return process.env.GOOGLE_MAPS_API_KEY || "";
-}
-
 function serveConfigJs(res) {
-  const key = resolveApiKey();
-  const body = `window.GOOGLE_MAPS_API_KEY = ${JSON.stringify(key)};\n`;
-  res.writeHead(200, { "Content-Type": "application/javascript; charset=utf-8" });
-  res.end(body);
+  res.writeHead(200, {
+    "Content-Type": "application/javascript; charset=utf-8",
+    "Cache-Control": "no-store",
+  });
+  res.end(configJsBody());
 }
 
 function serveStatic(filePath, res) {

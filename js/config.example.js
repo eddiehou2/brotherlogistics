@@ -12,7 +12,7 @@
  *    - Places API
  *    - Distance Matrix API
  * 3. Create an API key and restrict it (HTTP referrers for production)
- * 4. Paste your key in js/config.js, or leave empty and set GOOGLE_MAPS_API_KEY
- *    when running `npm start`
+ * 4. Paste your key in js/config.js for local dev, or leave empty and set
+ *    GOOGLE_MAPS_API_KEY (Vercel dashboard or `export` + `npm start`)
  */
 window.GOOGLE_MAPS_API_KEY = "";
