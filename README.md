@@ -1,0 +1,69 @@
+# Brother Logistics Website
+
+A two-page website for **Brother Logistics**, a professional logistics company based in Mississauga, Ontario.
+
+| Page | File | Description |
+|------|------|-------------|
+| About | `index.html` | Company overview, services, and contact details |
+| Shipping Calculator | `calculator.html` | Instant shipping quotes using Google Maps distance |
+
+## Quick Start
+
+1. **Add your Google Maps API key** (kept out of git):
+
+   ```bash
+   cp js/config.example.js js/config.js
+   ```
+
+   Edit `js/config.js` and set your key:
+
+   ```js
+   window.GOOGLE_MAPS_API_KEY = "your-actual-api-key";
+   ```
+
+   `js/config.js` is listed in `.gitignore` so it is never committed.
+
+2. **Enable these APIs** in [Google Cloud Console](https://console.cloud.google.com/):
+   - Maps JavaScript API
+   - Places API (for address autocomplete)
+   - Distance Matrix API (for driving distance)
+
+3. **Run a local server** (required for Google Maps — `file://` URLs are blocked):
+
+   ```bash
+   npx serve .
+   ```
+
+   Then open `http://localhost:3000` (or the port shown).
+
+## How the Calculator Works
+
+1. User enters **from** and **to** addresses (with Places autocomplete).
+2. **Google Distance Matrix API** returns the driving distance in kilometres.
+3. Cost is calculated from:
+   - Base handling fee
+   - Per-kilometre rate × distance
+   - Per-kilogram rate × billable weight (greater of actual weight or dimensional weight)
+   - 8% fuel surcharge
+   - Minimum charge of $12.99 CAD
+
+Dimensional weight formula: `(height × width × depth) / 5000` (cm → kg).
+
+A route preview map is shown after a successful calculation.
+
+## Project Structure
+
+```
+├── index.html          # Company about page
+├── calculator.html     # Shipping cost calculator
+├── css/styles.css      # Shared styles
+├── js/
+│   ├── config.example.js  # API key template (committed)
+│   ├── config.js          # Your key (gitignored — create from example)
+│   └── calculator.js   # Calculator logic
+└── README.md
+```
+
+## Customization
+
+Edit rate constants in `js/calculator.js` under `RATES` and `MIN_CHARGE` to match your pricing model.

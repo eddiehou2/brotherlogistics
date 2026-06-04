@@ -1,0 +1,4 @@
+# Local secrets — copy from js/config.example.js
+js/config.js
+
+.DS_Store

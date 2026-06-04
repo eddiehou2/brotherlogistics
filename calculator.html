@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Calculate your shipping cost with Brother Logistics — instant quotes based on weight, dimensions, and distance." />
+  <title>Shipping Calculator | Brother Logistics</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-icon">BL</span>
+        Brother Logistics
+      </a>
+      <nav>
+        <ul>
+          <li><a href="index.html">About</a></li>
+          <li><a href="calculator.html" class="active cta-nav">Get a Quote</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="calculator-layout">
+    <div class="container">
+      <h1 class="section-title">Shipping Cost Calculator</h1>
+      <p class="section-subtitle">
+        Enter your package details and addresses to receive an instant estimate. Distance is calculated via Google Maps driving routes.
+      </p>
+
+      <div id="api-notice" class="api-notice" hidden>
+        <strong>Google Maps API key required.</strong>
+        Copy <code>js/config.example.js</code> to <code>js/config.js</code>, add your key, and enable the Maps JavaScript API, Places API, and Distance Matrix API in Google Cloud Console.
+      </div>
+
+      <div class="calculator-grid">
+        <div class="form-panel">
+          <h2>Shipment Details</h2>
+          <p>All dimensions in centimetres (cm), weight in kilograms (kg).</p>
+
+          <form id="shipping-form" novalidate>
+            <div class="form-group">
+              <label for="from-address">From Address</label>
+              <input type="text" id="from-address" name="from" placeholder="e.g. 2150 Drew Rd, Mississauga, ON" required autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+              <label for="to-address">To Address</label>
+              <input type="text" id="to-address" name="to" placeholder="e.g. 100 King St W, Toronto, ON" required autocomplete="off" />
+            </div>
+
+            <div class="form-group">
+              <label for="weight">Package Weight (kg)</label>
+              <input type="number" id="weight" name="weight" min="0.1" step="0.1" placeholder="e.g. 5" required />
+            </div>
+
+            <div class="form-group">
+              <label>Package Dimensions (cm)</label>
+              <div class="dimensions-row">
+                <div>
+                  <label for="height">Height</label>
+                  <input type="number" id="height" name="height" min="1" step="0.1" placeholder="30" required />
+                </div>
+                <div>
+                  <label for="width">Width</label>
+                  <input type="number" id="width" name="width" min="1" step="0.1" placeholder="20" required />
+                </div>
+                <div>
+                  <label for="depth">Depth</label>
+                  <input type="number" id="depth" name="depth" min="1" step="0.1" placeholder="15" required />
+                </div>
+              </div>
+              <p class="form-hint">Dimensional weight may apply for large, lightweight packages.</p>
+            </div>
+
+            <button type="submit" class="btn btn-calculate" id="calculate-btn">Calculate Shipping Cost</button>
+          </form>
+
+          <div id="error-message" class="error-message" role="alert"></div>
+        </div>
+
+        <div class="result-panel">
+          <h2>Your Estimate</h2>
+
+          <div id="result-placeholder" class="result-placeholder">
+            Fill in the form and click <strong>Calculate Shipping Cost</strong> to see your quote.
+          </div>
+
+          <div id="result-content" class="result-content">
+            <div class="cost-display">
+              <div class="label">Estimated Total (CAD)</div>
+              <div class="amount"><span class="currency">$</span><span id="total-cost">0.00</span></div>
+            </div>
+
+            <ul class="breakdown" id="breakdown-list"></ul>
+
+            <div id="map-preview" class="map-preview"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2026 Brother Logistics Inc. All rights reserved. &nbsp;|&nbsp; <a href="index.html">About Us</a></p>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/calculator.js"></script>
+</body>
+</html>
